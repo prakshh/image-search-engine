@@ -1,4 +1,9 @@
-const imagesWrapper = document.querySelector(".images");
+const imagesWrapper = document.querySelector(".images");    
+const loadMoreBtn = document.querySelector(".load-more");
+/* note:
+        error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
+        reason: there was no dot (".images") in the line - const imagesWrapper = document.querySelector("images"); 
+*/
 
 const apiKey = "Vb9TB08blFdJy5A4K7xbdWGS1bBQCwAX8o6vayNwGrTO6KSFMu3F3Z9F";  // https://www.pexels.com/api/ 
 const perPage = 15;
@@ -6,10 +11,6 @@ let currentPage = 1;    // Later, will increment the currentPage on 'Load More' 
 
 const generateHTML = (images) => {
     // Making li of all fetched images and adding them to the existing image wrapper
-    /* note:
-            error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
-            reason: there was no dot (".images") in the line - const imagesWrapper = document.querySelector("images"); 
-    */
     imagesWrapper.innerHTML += images.map(img =>
         `<li class="card">
             <img src="${img.src.large2x}" alt="img">
@@ -33,6 +34,13 @@ const getImages = (apiURL) => {
     })
 }
 
+const loadMoreImages = () => {
+    currentPage++;  // increment currentPage by 1
+    let apiURL = `https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perPage}`;
+    getImages(apiURL);
+}
+
 //https://www.pexels.com/api/documentation/#photos-curated
 //getImages(`https://api.pexels.com/v1/curated?per_page=1`);
 getImages(`https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perPage}`);
+loadMoreBtn.addEventListener("click", loadMoreImages);
