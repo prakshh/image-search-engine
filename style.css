@@ -119,6 +119,10 @@ input, button, i {
     padding: 12px 27px;
     background-color: #8a6cff;
 }
+.gallery .load-more.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
 
 .lightbox {
     position: fixed;
