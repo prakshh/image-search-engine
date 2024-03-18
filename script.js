@@ -10,7 +10,19 @@ const searchInput = document.querySelector(".search-box input");
 const apiKey = "Vb9TB08blFdJy5A4K7xbdWGS1bBQCwAX8o6vayNwGrTO6KSFMu3F3Z9F";  // https://www.pexels.com/api/ 
 const perPage = 15;
 let currentPage = 1;    // Later, will increment the currentPage on 'Load More' button click  
-let searchTerm = null;                                                            
+let searchTerm = null;    
+
+//converting received img to blob, creating its download link, & downloading it
+const downloadImg = (imgURL) => {
+    //console.log(imgURL);      //get the image URL of selected image to download
+    fetch(imgURL).then(res => res.blob()).then(file => {
+        //console.log(file);      //get the blob object of image
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(file);     //URL.createObjectURL creates URL of passed object
+        a.download = new Date().getTime();      //passing current time in miliseconds as <a> download value   
+        a.click();
+    }).catch(() => alert("Failed to download image!"));
+}
 
 const generateHTML = (images) => {
     // Making li of all fetched images and adding them to the existing image wrapper
@@ -22,7 +34,9 @@ const generateHTML = (images) => {
                     <i class="uil uil-camera"></i>
                     <span>${img.photographer}</span>
                 </div>
-                <button><i class="uil uil-import"></i></button>
+                <button onclick="downloadImg('${img.src.large2x}')">
+                    <i class="uil uil-import"></i>
+                </button>
             </div>
         </li>`
     ).join("");
