@@ -1,6 +1,8 @@
 const imagesWrapper = document.querySelector(".images");    
 const loadMoreBtn = document.querySelector(".load-more");
 const searchInput = document.querySelector(".search-box input");
+const lightbox = document.querySelector(".lightbox");
+
 /* note:
         error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
         reason: there was no dot (".images") in the line - const imagesWrapper = document.querySelector("images"); 
@@ -24,10 +26,16 @@ const downloadImg = (imgURL) => {
     }).catch(() => alert("Failed to download image!"));
 }
 
+// zoom/show selected image and photographer's name
+const showLightbox = (name, img) => {
+    lightbox.querySelector("img").src = img;            //setting img source
+    lightbox.querySelector("span").innerText = name;    //setting photographer's name source
+    lightbox.classList.add("show"); // this will change the class name from lightbox to lightbox.show when clicked on an image
+}
 const generateHTML = (images) => {
     // Making li of all fetched images and adding them to the existing image wrapper
     imagesWrapper.innerHTML += images.map(img =>
-        `<li class="card">
+        `<li class="card" onclick="showLightbox('${img.photographer}', '${img.src.large2x}')">
             <img src="${img.src.large2x}" alt="img">
             <div class="details">
                 <div class="photographer">
