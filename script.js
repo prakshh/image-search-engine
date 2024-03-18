@@ -44,6 +44,10 @@ const getImages = (apiURL) => {
 const loadMoreImages = () => {
     currentPage++;  // increment currentPage by 1
     let apiURL = `https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perPage}`;
+
+    //issue: when I searched for something ("mountains") and clicked Load More..., it showed the curated images (a random person) instead of the searched images
+    //fix: if searchTerm has some value, then call API with the search term, else call the default API
+    apiURL = searchTerm ? `https://api.pexels.com/v1/search?query=${searchTerm}&page=${currentPage}&per_page=${perPage}` : apiURL;
     getImages(apiURL);
 }
 
