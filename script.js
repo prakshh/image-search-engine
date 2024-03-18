@@ -1,13 +1,16 @@
 const imagesWrapper = document.querySelector(".images");    
 const loadMoreBtn = document.querySelector(".load-more");
+const searchInput = document.querySelector(".search-box input");
 /* note:
         error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
         reason: there was no dot (".images") in the line - const imagesWrapper = document.querySelector("images"); 
 */
 
+// API key, paginations and searchTerm variables
 const apiKey = "Vb9TB08blFdJy5A4K7xbdWGS1bBQCwAX8o6vayNwGrTO6KSFMu3F3Z9F";  // https://www.pexels.com/api/ 
 const perPage = 15;
-let currentPage = 1;    // Later, will increment the currentPage on 'Load More' button click                                                              
+let currentPage = 1;    // Later, will increment the currentPage on 'Load More' button click  
+let searchTerm = null;                                                            
 
 const generateHTML = (images) => {
     // Making li of all fetched images and adding them to the existing image wrapper
@@ -44,7 +47,19 @@ const loadMoreImages = () => {
     getImages(apiURL);
 }
 
+const loadSearchImages = (e) => {
+    // if pressed key is Enter, then update currentpage, searchTerm and call the getImages
+    if(e.key === "Enter") {
+        //console.log("Enter key pressed");
+        currentPage = 1;
+        searchTerm = e.target.value;
+        imagesWrapper.innerHTML = "";
+        getImages(`https://api.pexels.com/v1/search?query=${searchTerm}&page=${currentPage}&per_page=${perPage}`);      //https://www.pexels.com/api/documentation/#photos-search
+    }
+}
+
 //https://www.pexels.com/api/documentation/#photos-curated
 //getImages(`https://api.pexels.com/v1/curated?per_page=1`);
 getImages(`https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perPage}`);
 loadMoreBtn.addEventListener("click", loadMoreImages);
+searchInput.addEventListener("keyup", loadSearchImages);
