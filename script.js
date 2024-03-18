@@ -33,11 +33,13 @@ const showLightbox = (name, img) => {
     lightbox.querySelector("img").src = img;            //setting img source
     lightbox.querySelector("span").innerText = name;    //setting photographer's name source
     lightbox.classList.add("show"); // this will change the class name from lightbox to lightbox.show when clicked on an image
+    document.body.style.overflow = "hidden";            //hide scrollbar when lighbox is shown
 }
 
 // hide the lightbox on close btn click
 const hideLightbox = () => {
     lightbox.classList.remove("show");
+    document.body.style.overflow = "auto";              //unhide scrollbar when lighbox is closed
 }
 
 const generateHTML = (images) => {
