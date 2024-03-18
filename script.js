@@ -3,7 +3,7 @@ const loadMoreBtn = document.querySelector(".load-more");
 const searchInput = document.querySelector(".search-box input");
 const lightbox = document.querySelector(".lightbox");
 const closeBtn = document.querySelector(".uil-times");
-
+const downloadImgBtn = document.querySelector(".uil-import");
 
 /* note:
         error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
@@ -32,6 +32,7 @@ const downloadImg = (imgURL) => {
 const showLightbox = (name, img) => {
     lightbox.querySelector("img").src = img;            //setting img source
     lightbox.querySelector("span").innerText = name;    //setting photographer's name source
+    downloadImgBtn.setAttribute("data-img", img);       //storing image URL as a btn attribute, so we can download it later
     lightbox.classList.add("show"); // this will change the class name from lightbox to lightbox.show when clicked on an image
     document.body.style.overflow = "hidden";            //hide scrollbar when lighbox is shown
 }
@@ -103,3 +104,4 @@ getImages(`https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perP
 loadMoreBtn.addEventListener("click", loadMoreImages);
 searchInput.addEventListener("keyup", loadSearchImages);
 closeBtn.addEventListener("click", hideLightbox);
+downloadImgBtn.addEventListener("click", (e) => downloadImg(e.target.dataset.img));     //passing btn img attribute value as argument to the downloadImg function
