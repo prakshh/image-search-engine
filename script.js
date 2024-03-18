@@ -38,7 +38,7 @@ const getImages = (apiURL) => {
         generateHTML(data.photos);
         loadMoreBtn.innerText = "Load More";        // once data has been fetched, will change button state back to normal
         loadMoreBtn.classList.remove("disabled");
-    })
+    }).catch(() => alert("Failed to load images!"));    // showing an alert if API failed with any reason
 }
 
 const loadMoreImages = () => {
@@ -52,6 +52,9 @@ const loadMoreImages = () => {
 }
 
 const loadSearchImages = (e) => {
+    //issue: if the search input is empty, then error: Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'map') at generateHTML 
+    //fix: if the search input is empty, set the search term to null and return from here
+    if(e.target.value === "") return searchTerm = null;
     // if pressed key is Enter, then update currentpage, searchTerm and call the getImages
     if(e.key === "Enter") {
         //console.log("Enter key pressed");
