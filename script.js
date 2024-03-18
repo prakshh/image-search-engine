@@ -2,6 +2,8 @@ const imagesWrapper = document.querySelector(".images");
 const loadMoreBtn = document.querySelector(".load-more");
 const searchInput = document.querySelector(".search-box input");
 const lightbox = document.querySelector(".lightbox");
+const closeBtn = document.querySelector(".uil-times");
+
 
 /* note:
         error: Uncaught (in promise) TypeError: Cannot read properties of null (reading 'innerHTML') at generateHTML
@@ -32,6 +34,12 @@ const showLightbox = (name, img) => {
     lightbox.querySelector("span").innerText = name;    //setting photographer's name source
     lightbox.classList.add("show"); // this will change the class name from lightbox to lightbox.show when clicked on an image
 }
+
+// hide the lightbox on close btn click
+const hideLightbox = () => {
+    lightbox.classList.remove("show");
+}
+
 const generateHTML = (images) => {
     // Making li of all fetched images and adding them to the existing image wrapper
     imagesWrapper.innerHTML += images.map(img =>
@@ -92,3 +100,4 @@ const loadSearchImages = (e) => {
 getImages(`https://api.pexels.com/v1/curated?page=${currentPage}&per_page=${perPage}`);
 loadMoreBtn.addEventListener("click", loadMoreImages);
 searchInput.addEventListener("keyup", loadSearchImages);
+closeBtn.addEventListener("click", hideLightbox);
