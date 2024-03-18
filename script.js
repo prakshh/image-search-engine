@@ -53,13 +53,24 @@ const generateHTML = (images) => {
                     <i class="uil uil-camera"></i>
                     <span>${img.photographer}</span>
                 </div>
-                <button onclick="downloadImg('${img.src.large2x}')">
+                <button onclick="downloadImg('${img.src.large2x}');event.stopPropagation();">
                     <i class="uil uil-import"></i>
                 </button>
             </div>
         </li>`
     ).join("");
 }
+
+//issue: 
+    //on above line: <button onclick="downloadImg('${img.src.large2x}')">
+    //when trying to just click on download option of a selected image, it does 2 things together : 1) it downloads the image, AND also 2) it shows lightbox (zooms in the image).
+//requirement: 
+    //to do just one thing in this case - 1) it should only download the image
+//fix: 
+    //<button onclick="downloadImg('${img.src.large2x}');event.stopPropagation();">
+//note: 
+    //stopPropagation() prevents propagation of the same event from being called 
+
 const getImages = (apiURL) => {
     // Fetching images by API call with authorization header
     loadMoreBtn.innerText = "Loading...";           // changing button state to Loading... while image is fetching
