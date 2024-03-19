@@ -85,7 +85,7 @@ bash
 ## License
 
 Copyright &copy: 2024 Prakash Das <br>
-This project is license under this [MIT License](License.txt)
+This project is license under this [MIT License](LICENSE)
 
 
 ## Version
